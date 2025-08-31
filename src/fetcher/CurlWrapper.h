@@ -1,21 +1,20 @@
 #pragma once
 
-#include "CurlWrapperIf.h"
-
 #include <curl/curl.h>
 
-namespace ps
-{
+#include "CurlWrapperIf.h"
 
-    class CurlWrapper : public CurlWrapperIf
-    {
-    public:
-        CurlWrapper();
-        ~CurlWrapper() override;
+namespace ps {
 
-        virtual std::optional<std::string> getHtmlFrom(const std::string_view url) override;
+class CurlWrapper : public CurlWrapperIf {
+ public:
+  CurlWrapper();
+  ~CurlWrapper() override;
 
-    private:
-        CURL *curl_ = nullptr;
-    };
-}
+  virtual std::optional<std::string> getHtmlFrom(
+      const std::string_view url) override;
+
+ private:
+  CURL *curl_ = nullptr;
+};
+}  // namespace ps

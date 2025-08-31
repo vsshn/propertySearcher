@@ -9,13 +9,46 @@ find_package(CURL REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(gflags REQUIRED)
 
-# Collect all source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
+add_library(Fetcher
+    src/fetcher/CurlWrapper.cpp
+    src/listings/RightmoveListingsProvider.cpp)
 
-# Create executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+target_include_directories(Fetcher PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(Fetcher PUBLIC CURL::libcurl spdlog::spdlog)
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE Fetcher)
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE CURL::libcurl spdlog::spdlog)
 target_include_directories(${PROJECT_NAME} PRIVATE ${GFLAGS_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GFLAGS_LIBRARIES})
+
+
+set(ONE_PAGE_GETTER onePageHtmlGetter)
+add_executable(${ONE_PAGE_GETTER} src/main.cpp)
+target_link_libraries(${ONE_PAGE_GETTER} PRIVATE Fetcher)
+
+# Link libraries
+target_include_directories(${ONE_PAGE_GETTER} PRIVATE ${GFLAGS_INCLUDE_DIRS})
+target_include_directories(${ONE_PAGE_GETTER} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(${ONE_PAGE_GETTER} PRIVATE ${GFLAGS_LIBRARIES})
+
+# ---- GoogleTest ----
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+# Prevent GoogleTest from forcing PIC
+set(BUILD_GMOCK OFF)
+set(INSTALL_GTEST OFF)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+# ---- Tests ----
+file(GLOB TEST_SOURCES "tests/*.cpp")
+add_executable(runTests ${TEST_SOURCES})
+target_link_libraries(runTests PRIVATE gtest gtest_main CURL::libcurl spdlog::spdlog)
+add_test(NAME AllTests COMMAND runTests)

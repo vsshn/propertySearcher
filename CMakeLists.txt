@@ -9,6 +9,9 @@ find_package(CURL REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(gflags REQUIRED)
 
+
+# add libraries
+
 add_library(Fetcher
     src/fetcher/CurlWrapper.cpp)
 
@@ -21,6 +24,11 @@ add_library(LinksProvider
 target_include_directories(LinksProvider PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(LinksProvider PUBLIC CURL::libcurl spdlog::spdlog)
 target_link_libraries(LinksProvider PRIVATE Fetcher)
+
+add_library(Parsers src/parsers/HtmlParser.cpp)
+
+target_include_directories(Parsers PRIVATE ${LEXBOR_INCLUDE_DIR})
+target_link_libraries(Parsers PRIVATE ${LEXBOR_LIBRARY} spdlog::spdlog)
 
 add_library(ListingsProvider
     src/listings/RightmoveListingsProvider.cpp)
@@ -64,6 +72,6 @@ enable_testing()
 file(GLOB TEST_SOURCES "src/tests/*.cpp")
 add_executable(runTests ${TEST_SOURCES})
 target_link_libraries(runTests PRIVATE gtest gtest_main gmock
-    gmock_main CURL::libcurl spdlog::spdlog LinksProvider)
+    gmock_main CURL::libcurl spdlog::spdlog LinksProvider Parsers)
 target_include_directories(runTests PRIVATE ${CMAKE_SOURCE_DIR}/src)
 add_test(NAME AllTests COMMAND runTests)

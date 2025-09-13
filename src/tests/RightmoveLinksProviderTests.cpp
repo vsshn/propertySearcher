@@ -14,13 +14,12 @@ using testing::Return;
 
 TEST(TestTest, Test) {
   auto mockCurlWrapper = std::make_unique<MockCurlWrapper>();
-  EXPECT_CALL(*mockCurlWrapper, getHtmlFrom).Times(1);
   auto mockCurlWrapperFactory = std::make_unique<MockCurlWrapperFactory>();
   EXPECT_CALL(*mockCurlWrapperFactory, create)
       .WillRepeatedly(Return(ByMove(std::move(mockCurlWrapper))));
-  RightmoveLinksProvider linksProvider(std::move(mockCurlWrapperFactory), {""});
+  RightmoveLinksProvider linksProvider(std::move(mockCurlWrapperFactory));
 
-  linksProvider.getLinks();
+  linksProvider.getLinks("");
 }
 
 }  // namespace

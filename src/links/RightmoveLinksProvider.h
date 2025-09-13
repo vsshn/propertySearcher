@@ -9,15 +9,14 @@ namespace ps {
 class RightmoveLinksProvider : public LinksProviderIf {
  public:
   explicit RightmoveLinksProvider(
-      std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory,
-      std::vector<std::string> baseUrls);
+      std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory);
 
-  virtual std::vector<Link> getLinks() const override;
+  virtual std::vector<Link> getLinks(
+      const std::string_view baseUrl) const override;
 
  private:
   std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory_;
   std::unique_ptr<CurlWrapperIf> curlWrapper_;
-  const std::vector<std::string> baseUrls_;
 };
 
 }  // namespace ps

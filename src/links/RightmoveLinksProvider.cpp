@@ -3,19 +3,14 @@
 namespace ps {
 
 RightmoveLinksProvider::RightmoveLinksProvider(
-    std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory,
-    const std::vector<std::string> baseUrls)
+    std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory)
     : curlWrapperFactory_(std::move(curlWrapperFactory)),
-      curlWrapper_(curlWrapperFactory_->create()),
-      baseUrls_(std::move(baseUrls)) {}
+      curlWrapper_(curlWrapperFactory_->create()) {}
 
-std::vector<Link> RightmoveLinksProvider::getLinks() const {
-  auto maybeString = curlWrapper_->getHtmlFrom("somewhere");
-  if (maybeString) {
-    return {Link{.url = maybeString.value()}};
-  }
-
-  return {};
+std::vector<Link> RightmoveLinksProvider::getLinks(
+    const std::string_view baseUrl) const {
+  std::vector<Link> links;
+  return links;
 }
 
 }  // namespace ps

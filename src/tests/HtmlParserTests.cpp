@@ -10,7 +10,7 @@ using testing::Eq;
 using testing::IsTrue;
 using testing::StrEq;
 
-TEST(TestTest, TestGetJsonFromScriptWithId) {
+TEST(HtmlParserTests, TestGetJsonFromScriptWithId) {
   const std::string html = R"(
         <html><body>
             <script id="target" type="application/json">{"key":"value"}</script>
@@ -23,7 +23,7 @@ TEST(TestTest, TestGetJsonFromScriptWithId) {
   EXPECT_THAT(res.value(), StrEq(expectedString));
 }
 
-TEST(TestTest, TestGetJsonFromScriptWithIdMalformedHtml) {
+TEST(HtmlParserTests, TestGetJsonFromScriptWithIdMalformedHtml) {
   const std::string html = R"(
         <html><body>
             <script id="target" type="application/json"{"key":"value"}
@@ -34,7 +34,8 @@ TEST(TestTest, TestGetJsonFromScriptWithIdMalformedHtml) {
   EXPECT_THAT(res, Eq(std::nullopt));
 }
 
-TEST(TestTest, TestGetJsonFromScriptWithIdMalformedHtmlNoClosingBracket) {
+TEST(HtmlParserTests,
+     TestGetJsonFromScriptWithIdMalformedHtmlNoClosingBracket) {
   const std::string html = R"(
         <html><body>
             <script id="target" type="application/json"{"key":"value"}</script>

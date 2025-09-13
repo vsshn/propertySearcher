@@ -9,6 +9,8 @@ find_package(CURL REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(gflags REQUIRED)
 
+find_package(nlohmann_json REQUIRED)
+
 
 # add libraries
 
@@ -25,10 +27,10 @@ target_include_directories(LinksProvider PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(LinksProvider PUBLIC CURL::libcurl spdlog::spdlog)
 target_link_libraries(LinksProvider PRIVATE Fetcher)
 
-add_library(Parsers src/parsers/HtmlParser.cpp)
+add_library(Parsers src/parsers/HtmlParser.cpp src/parsers/JsonParser.cpp)
 
-target_include_directories(Parsers PRIVATE ${LEXBOR_INCLUDE_DIR})
-target_link_libraries(Parsers PRIVATE ${LEXBOR_LIBRARY} spdlog::spdlog)
+target_link_libraries(Parsers spdlog::spdlog nlohmann_json::nlohmann_json)
+
 
 add_library(ListingsProvider
     src/listings/RightmoveListingsProvider.cpp)

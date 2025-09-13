@@ -12,7 +12,7 @@ using testing::ByMove;
 using testing::Eq;
 using testing::Return;
 
-TEST(TestTest, Test) {
+TEST(RightmoveLinksProviderTest, Test) {
   auto mockCurlWrapper = std::make_unique<MockCurlWrapper>();
   auto mockCurlWrapperFactory = std::make_unique<MockCurlWrapperFactory>();
   EXPECT_CALL(*mockCurlWrapperFactory, create)

@@ -24,7 +24,7 @@ add_library(LinksProvider
     src/links/RightmoveLinksProvider.cpp)
 
 target_include_directories(LinksProvider PUBLIC ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(LinksProvider PUBLIC CURL::libcurl spdlog::spdlog)
+target_link_libraries(LinksProvider PUBLIC CURL::libcurl spdlog::spdlog nlohmann_json::nlohmann_json)
 target_link_libraries(LinksProvider PRIVATE Fetcher)
 
 add_library(Parsers src/parsers/HtmlParser.cpp src/parsers/JsonParser.cpp)
@@ -76,4 +76,9 @@ add_executable(runTests ${TEST_SOURCES})
 target_link_libraries(runTests PRIVATE gtest gtest_main gmock
     gmock_main CURL::libcurl spdlog::spdlog LinksProvider Parsers)
 target_include_directories(runTests PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
+target_compile_definitions(runTests PRIVATE
+    TEST_DATA_DIR="${CMAKE_SOURCE_DIR}/src/tests"
+)
+
 add_test(NAME AllTests COMMAND runTests)

@@ -1,4 +1,4 @@
-#include "RightmoveLinksProvider.h"
+#include "RightmoveSimpleListingsProvider.h"
 
 #include <spdlog/spdlog.h>
 
@@ -14,9 +14,23 @@ namespace {
 static constexpr std::string_view kScriptId = "__NEXT_DATA__";
 static constexpr std::string_view kRightmoveUrl = "https://www.rightmove.co.uk";
 
+uint16_t extractPrice(const auto& priceJson) {
+  constexpr const double weekToMonthCoeff = 13. / 3.;
+  const int16_t price = priceJson["amount"];
+  const std::string frequency = priceJson["frequency"];
+  if (frequency == "monthly") {
+    return price;
+  } else if (frequency == "weekly") {
+    return static_cast<int16_t>(price * weekToMonthCoeff);
+  }
+
+  spdlog::error("Weird payment frequency: {}, cannot extract price", frequency);
+  return 0;
+}
+
 }  // namespace
 
-RightmoveLinksProvider::RightmoveLinksProvider(
+RightmoveSimpleListingsProvider::RightmoveSimpleListingsProvider(
     std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory,
     JsonScriptGetter jsonGetter, StringToJsonConverter toJsonConverter)
     : curlWrapperFactory_(std::move(curlWrapperFactory)),
@@ -24,7 +38,7 @@ RightmoveLinksProvider::RightmoveLinksProvider(
       getJsonScriptFromHtml_(std::move(jsonGetter)),
       convertStringToJson_(std::move(toJsonConverter)) {}
 
-std::vector<Link> RightmoveLinksProvider::getLinks(
+std::vector<Listing> RightmoveSimpleListingsProvider::getListings(
     const std::string_view baseUrl) const {
   std::optional<std::string> html = curlWrapper_->getHtmlFrom(baseUrl);
   if (!html) {
@@ -54,13 +68,12 @@ std::vector<Link> RightmoveLinksProvider::getLinks(
 
   auto propertiesView =
       properties | std::ranges::views::transform([](const auto& property) {
-        return Link{.url = std::format("{}{}", kRightmoveUrl,
-                                       std::string(property["propertyUrl"]))};
+        return Listing{.price = extractPrice(property["price"])};
       });
 
-  std::vector<Link> links(propertiesView.begin(), propertiesView.end());
+  std::vector<Listing> listings(propertiesView.begin(), propertiesView.end());
 
-  return links;
+  return listings;
 }
 
 }  // namespace ps

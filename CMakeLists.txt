@@ -8,11 +8,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(CURL REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(gflags REQUIRED)
+find_package(OpenCV REQUIRED)
+
 
 find_package(nlohmann_json REQUIRED)
 
 
 # add libraries
+
+add_library(ImageProcessing
+    src/image_processing/HistogramCalculator.cpp)
+
+target_include_directories(ImageProcessing PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(ImageProcessing ${OpenCV_LIBS})
+
 
 add_library(Fetcher
     src/fetcher/CurlWrapper.cpp)
@@ -33,10 +42,11 @@ target_link_libraries(Parsers spdlog::spdlog nlohmann_json::nlohmann_json)
 
 
 add_library(ListingsProvider
-    src/listings/RightmoveListingsProvider.cpp)
+    src/listings/RightmoveListingsProvider.cpp
+    src/listings/RightmoveSimpleListingsProvider.cpp)
 
 target_include_directories(ListingsProvider PUBLIC ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(ListingsProvider PUBLIC CURL::libcurl spdlog::spdlog)
+target_link_libraries(ListingsProvider PRIVATE CURL::libcurl spdlog::spdlog nlohmann_json::nlohmann_json)
 target_link_libraries(ListingsProvider PRIVATE Fetcher)
 
 
@@ -74,7 +84,7 @@ enable_testing()
 file(GLOB TEST_SOURCES "src/tests/*.cpp")
 add_executable(runTests ${TEST_SOURCES})
 target_link_libraries(runTests PRIVATE gtest gtest_main gmock
-    gmock_main CURL::libcurl spdlog::spdlog LinksProvider Parsers)
+    gmock_main CURL::libcurl spdlog::spdlog LinksProvider Parsers ListingsProvider ImageProcessing)
 target_include_directories(runTests PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 target_compile_definitions(runTests PRIVATE

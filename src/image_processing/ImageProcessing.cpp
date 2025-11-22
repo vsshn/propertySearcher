@@ -1,4 +1,4 @@
-#include "image_processing/HistogramCalculator.h"
+#include "image_processing/ImageProcessing.h"
 
 namespace ps {
 
@@ -19,6 +19,12 @@ std::vector<float> computeHSVHistogram(const cv::Mat& img, HistParams params) {
 
   hist = hist.reshape(1, 1);
   return std::vector<float>(hist.begin<float>(), hist.end<float>());
+}
+
+std::vector<float> computeHSVHistogram(const std::string& path,
+                                       HistParams params) {
+  const cv::Mat img = cv::imread(path);
+  return computeHSVHistogram(img, std::move(params));
 }
 
 }  // namespace ps

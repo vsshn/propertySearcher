@@ -17,7 +17,7 @@ find_package(nlohmann_json REQUIRED)
 # add libraries
 
 add_library(ImageProcessing
-    src/image_processing/HistogramCalculator.cpp)
+    src/image_processing/ImageProcessing.cpp)
 
 target_include_directories(ImageProcessing PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(ImageProcessing ${OpenCV_LIBS})

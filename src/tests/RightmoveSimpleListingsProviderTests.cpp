@@ -53,19 +53,164 @@ TEST(RightmoveSimpleListingsProviderTests, Test) {
 
   EXPECT_THAT(
       listingsProvider.getListings(kBaseUrl),
-      UnorderedElementsAre(Listing{.price = 3095}, Listing{.price = 13649},
-                           Listing{.price = 13649}, Listing{.price = 13000},
-                           Listing{.price = 13000}, Listing{.price = 13000},
-                           Listing{.price = 13000}, Listing{.price = 12783},
-                           Listing{.price = 12783}, Listing{.price = 12783},
-                           Listing{.price = 12500}, Listing{.price = 12500},
-                           Listing{.price = 12500}, Listing{.price = 12499},
-                           Listing{.price = 12350}, Listing{.price = 12350},
-                           Listing{.price = 12350}, Listing{.price = 12350},
-                           Listing{.price = 11917}, Listing{.price = 11700},
-                           Listing{.price = 11700}, Listing{.price = 11700},
-                           Listing{.price = 11483}, Listing{.price = 11266},
-                           Listing{.price = 11158}));
+      UnorderedElementsAre(
+          Listing{
+              .price = 3095,
+              .numBedrooms = 2,
+              .imageUrls =
+                  {"https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_00_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_07_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_04_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_05_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_03_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_01_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_02_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_06_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/222842_TCH231746_L_IMG_08_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/223k/"
+                   "222842/"
+                   "166517084/"
+                   "222842_TCH231746_L_IMG_09_0000_max_476x317.jpeg"}},
+          Listing{
+              .price = 13649,
+              .numBedrooms = 5,
+              .imageUrls =
+                  {"https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_00_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_01_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_02_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_03_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_04_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_05_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_06_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_07_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_08_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/8k/"
+                   "7411/"
+                   "163505099/7411_HNV180224_L_IMG_09_0000_max_476x317.jpeg"}},
+          Listing{
+              .price = 13649,
+              .numBedrooms = 5,
+              .imageUrls =
+                  {"https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_00_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_01_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_02_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_03_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_04_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_05_0000_max_476x317.jpeg",
+                   "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/85k/"
+                   "84235/"
+                   "163808558/84235_RGS180093_L_IMG_06_0000_max_476x317.jpeg"}},
+          Listing{.price = 11158,
+                  .numBedrooms = 5,
+                  .imageUrls = {
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_22_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_02_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_21_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_01_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_03_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_04_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_05_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_06_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_07_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_08_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_09_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_11_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_12_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_13_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_14_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_16_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_17_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_20_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_00_0000_max_476x317.jpeg",
+                      "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/"
+                      "50k/49006/165591833/"
+                      "49006_HAL090081_L_IMG_23_0000_max_476x317.jpeg"}}));
 }
 
 }  // namespace

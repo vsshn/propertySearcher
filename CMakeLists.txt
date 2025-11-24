@@ -42,6 +42,7 @@ target_link_libraries(Parsers spdlog::spdlog nlohmann_json::nlohmann_json)
 
 
 add_library(ListingsProvider
+    src/listings/Listing.cpp
     src/listings/RightmoveListingsProvider.cpp
     src/listings/RightmoveSimpleListingsProvider.cpp)
 

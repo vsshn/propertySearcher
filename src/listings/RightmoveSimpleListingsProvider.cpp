@@ -11,6 +11,21 @@ namespace ps {
 
 namespace {
 
+std::vector<std::string> extractImageUrls(const auto& property) {
+  const auto& images = property["images"];
+  std::vector<std::string> result;
+  result.reserve(images.size());
+  for (const auto& imageUrlEl : images) {
+    result.emplace_back(imageUrlEl["srcUrl"]);
+  }
+
+  return result;
+}
+
+uint8_t extractNumBedrooms(const auto& property) {
+  return static_cast<uint8_t>(property["bedrooms"]);
+}
+
 static constexpr std::string_view kScriptId = "__NEXT_DATA__";
 static constexpr std::string_view kRightmoveUrl = "https://www.rightmove.co.uk";
 
@@ -68,7 +83,9 @@ std::vector<Listing> RightmoveSimpleListingsProvider::getListings(
 
   auto propertiesView =
       properties | std::ranges::views::transform([](const auto& property) {
-        return Listing{.price = extractPrice(property["price"])};
+        return Listing{.price = extractPrice(property["price"]),
+                       .imageUrls = extractImageUrls(property),
+                       .numBedrooms = extractNumBedrooms(property)};
       });
 
   std::vector<Listing> listings(propertiesView.begin(), propertiesView.end());

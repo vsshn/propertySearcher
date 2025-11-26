@@ -16,6 +16,12 @@ find_package(nlohmann_json REQUIRED)
 
 # add libraries
 
+add_library(StringManip
+    src/string_manip/StringManip.cpp)
+
+target_include_directories(StringManip PUBLIC ${CMAKE_SOURCE_DIR}/src)
+
+
 add_library(ImageProcessing
     src/image_processing/ImageProcessing.cpp)
 
@@ -30,7 +36,8 @@ target_include_directories(Fetcher PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(Fetcher PUBLIC CURL::libcurl spdlog::spdlog)
 
 add_library(LinksProvider
-    src/links/RightmoveLinksProvider.cpp)
+    src/links/RightmoveLinksProvider.cpp
+    src/links/RightmoveAllPageLinksGenerator.cpp)
 
 target_include_directories(LinksProvider PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(LinksProvider PUBLIC CURL::libcurl spdlog::spdlog nlohmann_json::nlohmann_json)
@@ -38,7 +45,7 @@ target_link_libraries(LinksProvider PRIVATE Fetcher)
 
 add_library(Parsers src/parsers/HtmlParser.cpp src/parsers/JsonParser.cpp)
 
-target_link_libraries(Parsers spdlog::spdlog nlohmann_json::nlohmann_json)
+target_link_libraries(Parsers StringManip spdlog::spdlog nlohmann_json::nlohmann_json)
 
 
 add_library(ListingsProvider

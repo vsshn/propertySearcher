@@ -10,6 +10,6 @@ class ListingsProviderIf {
  public:
   virtual ~ListingsProviderIf() = default;
   virtual std::vector<Listing> getListings(
-      const std::string_view baseUrl) const = 0;
+      const std::string_view html) const = 0;
 };
 }  // namespace ps

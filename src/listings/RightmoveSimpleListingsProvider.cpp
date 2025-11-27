@@ -46,27 +46,18 @@ uint16_t extractPrice(const auto& priceJson) {
 }  // namespace
 
 RightmoveSimpleListingsProvider::RightmoveSimpleListingsProvider(
-    std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory,
     JsonScriptGetter jsonGetter, StringToJsonConverter toJsonConverter)
-    : curlWrapperFactory_(std::move(curlWrapperFactory)),
-      curlWrapper_(curlWrapperFactory_->create()),
-      getJsonScriptFromHtml_(std::move(jsonGetter)),
+    : getJsonScriptFromHtml_(std::move(jsonGetter)),
       convertStringToJson_(std::move(toJsonConverter)) {}
 
 std::vector<Listing> RightmoveSimpleListingsProvider::getListings(
-    const std::string_view baseUrl) const {
-  std::optional<std::string> html = curlWrapper_->getHtmlFrom(baseUrl);
-  if (!html) {
-    spdlog::error("Couldn't get html from: {}", baseUrl);
-    return {};
-  }
-
+    const std::string_view html) const {
   std::optional<std::string> propertiesJsonString =
-      getJsonScriptFromHtml_(kScriptId, html.value());
+      getJsonScriptFromHtml_(kScriptId, html);
 
   if (!propertiesJsonString) {
-    spdlog::error("Couldn't get json containing properties info from: {}",
-                  baseUrl);
+    spdlog::error(
+        "Couldn't get json containing properties info from html provided");
     return {};
   }
 

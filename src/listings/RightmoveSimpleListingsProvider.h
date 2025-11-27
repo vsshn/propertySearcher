@@ -24,16 +24,12 @@ class RightmoveSimpleListingsProvider : public ListingsProviderIf {
       std::function<nlohmann::json(const std::string& jsonStr)>;
 
   explicit RightmoveSimpleListingsProvider(
-      std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory,
       JsonScriptGetter jsonGetter, StringToJsonConverter toJsonConverter);
 
   virtual std::vector<Listing> getListings(
-      const std::string_view baseUrl) const override;
+      const std::string_view html) const override;
 
  private:
-  std::unique_ptr<CurlWrapperFactoryIf> curlWrapperFactory_;
-  std::unique_ptr<CurlWrapperIf> curlWrapper_;
-
   JsonScriptGetter getJsonScriptFromHtml_;
   StringToJsonConverter convertStringToJson_;
 };

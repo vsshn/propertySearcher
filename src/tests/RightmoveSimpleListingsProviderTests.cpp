@@ -9,16 +9,11 @@
 #include "listings/RightmoveSimpleListingsProvider.h"
 #include "parsers/HtmlParser.h"
 #include "parsers/JsonParser.h"
-#include "tests/CurlWrapperFactoryMock.h"
-#include "tests/CurlWrapperMock.h"
 
 namespace ps {
 
 namespace {
 
-static constexpr std::string_view kBaseUrl = "someUrl.com";
-
-using testing::ByMove;
 using testing::Eq;
 using testing::Return;
 using testing::UnorderedElementsAre;
@@ -41,18 +36,11 @@ std::string getStringFromFile(const std::string_view fileName) {
 TEST(RightmoveSimpleListingsProviderTests, Test) {
   auto htmlString = getStringFromFile("test_html/sample.html");
 
-  auto mockCurlWrapper = std::make_unique<MockCurlWrapper>();
-  EXPECT_CALL(*mockCurlWrapper, getHtmlFrom(kBaseUrl))
-      .WillOnce(Return(htmlString));
-  auto mockCurlWrapperFactory = std::make_unique<MockCurlWrapperFactory>();
-  EXPECT_CALL(*mockCurlWrapperFactory, create)
-      .WillRepeatedly(Return(ByMove(std::move(mockCurlWrapper))));
-  RightmoveSimpleListingsProvider listingsProvider(
-      std::move(mockCurlWrapperFactory), getJsonFromScriptWithId,
-      convertToJson);
+  RightmoveSimpleListingsProvider listingsProvider(getJsonFromScriptWithId,
+                                                   convertToJson);
 
   EXPECT_THAT(
-      listingsProvider.getListings(kBaseUrl),
+      listingsProvider.getListings(htmlString),
       UnorderedElementsAre(
           Listing{
               .price = 3095,

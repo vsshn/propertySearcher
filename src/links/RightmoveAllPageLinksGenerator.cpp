@@ -2,6 +2,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <ranges>
+
 #include "string_manip/StringManip.h"
 
 namespace ps {
@@ -44,10 +46,21 @@ int16_t getNumPages(const std::string_view html) {
 }  // namespace
 
 std::vector<std::string> RightmoveAllPageLinksGenerator::getLinksToAllPages(
-    const std::string_view firstPageHtml) const {
-  const int16_t numPages = getNumPages(firstPageHtml);
+    const WebPage& page) const {
+  const int16_t numPages = getNumPages(page.html);
 
-  return {std::vector<std::string>(numPages, std::string(firstPageHtml))};
+  auto resView = std::views::iota(0, numPages) |
+                 std::ranges::views::transform([&page](int16_t pageIndex) {
+                   return std::format("{}&index={}", page.link, pageIndex * 24);
+                 });
+
+  std::vector<std::string> result;
+  result.reserve(numPages);
+
+  for (auto&& s : resView) {
+    result.emplace_back(std::move(s));
+  }
+  return result;
 }
 
 }  // namespace ps

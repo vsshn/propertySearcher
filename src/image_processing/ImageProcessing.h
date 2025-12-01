@@ -23,9 +23,9 @@ std::vector<float> computeHSVHistogram(const std::string& path,
 template <typename ElementType>
 std::optional<ElementType> cosine(const std::vector<ElementType>& lhs,
                                   const std::vector<ElementType>& rhs) {
-  double dotProduct = 0.0;
-  double modLhs = 0.0;
-  double modRhs = 0.0;
+  ElementType dotProduct = 0;
+  ElementType modLhs = 0;
+  ElementType modRhs = 0;
   int ln = lhs.size();
   int rn = rhs.size();
   if (ln != rn) {

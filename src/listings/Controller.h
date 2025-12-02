@@ -9,6 +9,7 @@
 #include "fetcher/CurlWrapperIf.h"
 #include "links/AllPageLinksGeneratorIf.h"
 #include "links/Links.h"
+#include "listings/filters/ListingFilterIf.h"
 
 namespace ps {
 
@@ -16,6 +17,7 @@ class Controller {
  public:
   explicit Controller(
       std::unique_ptr<ListingsProviderIf> listingsProvider,
+      std::unique_ptr<ListingFilterIf> listingsFilter,
       std::unique_ptr<AllPageLinksGeneratorIf> allPageLinksGenerator,
       std::unique_ptr<CurlWrapperIf> curlWrapper);
 
@@ -27,6 +29,7 @@ class Controller {
       const std::string_view pageHtml) const;
 
   const std::unique_ptr<const ListingsProviderIf> listingsProvider_;
+  const std::unique_ptr<const ListingFilterIf> listingFilter_;
   const std::unique_ptr<const AllPageLinksGeneratorIf> allPageLinksGenerator_;
   const std::unique_ptr<CurlWrapperIf> curlWrapper_;
 };

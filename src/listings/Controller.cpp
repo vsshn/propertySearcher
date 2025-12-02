@@ -18,9 +18,11 @@ void appendToVector(std::vector<Link>& vec, std::vector<Link>&& toAppend) {
 
 Controller::Controller(
     std::unique_ptr<ListingsProviderIf> listingsProvider,
+    std::unique_ptr<ListingFilterIf> listingFilter,
     std::unique_ptr<AllPageLinksGeneratorIf> allPageLinksGenerator,
     std::unique_ptr<CurlWrapperIf> curlWrapper)
     : listingsProvider_(std::move(listingsProvider)),
+      listingFilter_(std::move(listingFilter)),
       allPageLinksGenerator_(std::move(allPageLinksGenerator)),
       curlWrapper_(std::move(curlWrapper)) {}
 

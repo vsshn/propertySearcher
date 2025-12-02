@@ -57,6 +57,12 @@ target_include_directories(ListingsProvider PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(ListingsProvider PRIVATE CURL::libcurl spdlog::spdlog nlohmann_json::nlohmann_json)
 target_link_libraries(ListingsProvider PRIVATE Fetcher)
 
+add_library(Filters
+    src/listings/filters/ImageListingFilter.cpp)
+
+target_include_directories(Filters PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(Filters PUBLIC spdlog::spdlog)
+
 add_library(Controller
     src/listings/Controller.cpp)
 
